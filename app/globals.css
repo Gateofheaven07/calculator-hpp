@@ -1,26 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-background: #0B0E14; /* Updated to match dashboard design */
+  --color-foreground: #ffffff;
+  --color-primary: #135bec; /* Updated to #135bec */
+  --color-primary-glow: #3b82f6; /* Updated */
+  --color-primary-foreground: #ffffff;
+  
+  --color-accent-purple: #8b5cf6;
+  --color-surface-dark: #151a23;
+  --color-border-dark: #272e3b;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-background-light: #0f172a;
+  --color-background-dark: #0B0E14; /* Updated */
+  --color-field-dark: #121212;
+  --color-accent-yellow: #FFD600;
+  --color-nebula-1: #312e81; 
+  --color-nebula-2: #1e3a8a; 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-neon-blue: #135bec;
+  --color-neon-gold: #ffd700;
+  --color-card-dark: rgba(21, 26, 35, 0.6);
+
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-mono: "Share Tech Mono", monospace;
+  
+  --shadow-neon: 0 0 20px -5px rgba(19, 91, 236, 0.5);
+  --shadow-neon-strong: 0 0 40px -10px rgba(19, 91, 236, 0.7);
+  --shadow-inner-glow: inset 0 0 20px rgba(19, 91, 236, 0.2);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 3s infinite;
+  --animate-spin-slow: spin-3d 20s linear infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-drift: drift 20s linear infinite;
+  --animate-comet: comet-fly 8s linear infinite;
+  --animate-twinkle: twinkle 3s ease-in-out infinite;
+  --animate-morph: morph 8s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes spin-3d {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.3); }
+  }
+  @keyframes drift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+  @keyframes comet-fly {
+    0% { transform: translate(-50px, 110vh) rotate(45deg) scale(0.8); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(calc(100vw + 50px), -100px) rotate(45deg) scale(1.5); opacity: 0; }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+  }
+  @keyframes morph {
+    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(-50%, -50%) rotate(0deg); }
+    33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+    66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+    100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(-50%, -50%) rotate(360deg); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    background-color: var(--color-background-dark);
+    color: var(--color-foreground);
+    @apply antialiased font-sans selection:bg-primary selection:text-white overflow-x-hidden;
+  }
+}
+
+/* Custom Styles for Dashboard */
+.glass-panel {
+    background: rgba(21, 26, 35, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-panel:hover {
+    border-color: rgba(19, 91, 236, 0.3);
+    box-shadow: 0 0 20px rgba(19, 91, 236, 0.1);
+}
+
+.input-field {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    background: rgba(19, 91, 236, 0.05);
+    border-color: #135bec;
+    box-shadow: 0 0 0 2px rgba(19, 91, 236, 0.2);
+    outline: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #135bec 0%, #3b82f6 100%);
+    box-shadow: 0 0 15px rgba(19, 91, 236, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 25px rgba(19, 91, 236, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Subtle Grid Background */
+.bg-grid-pattern {
+    background-size: 50px 50px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+/* Auth Page specific (keeping some for backward compatibility if needed, but updating colors) */
+.neon-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    animation: morph 8s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(1px);
+}
+.neon-ring:nth-child(1) {
+    border-color: rgba(19, 91, 236, 0.8);
+    animation-direction: alternate;
+    width: 480px;
+    height: 480px;
+    box-shadow: 0 0 40px rgba(19, 91, 236, 0.5), inset 0 0 20px rgba(19, 91, 236, 0.2);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0B0E14;
+}
+::-webkit-scrollbar-thumb {
+    background: #272e3b;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #135bec;
 }

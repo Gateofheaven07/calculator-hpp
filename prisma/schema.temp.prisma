@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(cuid())
+  email           String           @unique
+  name            String?
+  password        String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  hppCalculations HppCalculation[]
+}
+
+model HppCalculation {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  product          Product?
+  materialCosts    MaterialCost[]
+  directLaborCosts DirectLaborCost[]
+  overheadCosts    OverheadCost[]
+}
+
+model MaterialCost {
+  id        String   @id @default(cuid())
+  name      String
+  quantity  Float
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  calculationId String
+  calculation   HppCalculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+}
+
+model DirectLaborCost {
+  id           String   @id @default(cuid())
+  role         String
+  hours        Float
+  rate         Float
+  days         Float    @default(1)
+  workersCount Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  calculationId String
+  calculation   HppCalculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+}
+
+model OverheadCost {
+  id        String   @id @default(cuid())
+  name      String
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  calculationId String
+  calculation   HppCalculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  sellingPrice Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  calculationId String         @unique
+  calculation   HppCalculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+}
