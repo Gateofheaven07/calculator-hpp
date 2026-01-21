@@ -5,39 +5,13 @@ import { Footer } from "@/components/landing/footer";
 import { PipelineSection } from "@/components/landing/pipeline-section";
 import { CTASection } from "@/components/landing/cta-section";
 
+import { Navbar } from "@/components/landing/navbar";
+
 export default function Home() {
   return (
     <div className="min-h-screen font-display overflow-x-hidden selection:bg-primary selection:text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-background-dark/30 border-b border-white/5">
-        {/* ... (existing navigation code) ... */}
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(13,89,242,0.5)]">
-                <span className="material-symbols-outlined text-white text-2xl">calculate</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white">HPP Calculator</span>
-            </div>
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
-              <Link className="text-sm font-medium text-gray-300 hover:text-white transition-colors" href="#">Fitur</Link>
-              <Link className="text-sm font-medium text-gray-300 hover:text-white transition-colors" href="#">Kalkulator</Link>
-              <Link className="text-sm font-medium text-gray-300 hover:text-white transition-colors" href="#">Tentang</Link>
-            </div>
-            {/* Auth Buttons */}
-            <div className="flex items-center gap-4">
-              <Link href="/login" className="hidden md:flex text-sm font-bold text-gray-300 hover:text-white transition-colors px-4 py-2">
-                Login
-              </Link>
-              <Link href="/register" className="relative group overflow-hidden rounded-lg bg-white/5 border border-white/10 px-5 py-2 transition-all hover:bg-white/10 hover:border-primary/50 hover:shadow-[0_0_15px_rgba(13,89,242,0.3)]">
-                <span className="relative z-10 text-sm font-bold text-white">Daftar</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <div className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
@@ -88,15 +62,15 @@ export default function Home() {
               mengubah data kompleks menjadi keputusan bisnis yang cerdas.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-4 justify-center lg:justify-start">
-              <button className="group relative flex items-center justify-center gap-3 h-14 px-8 rounded-full bg-gradient-to-r from-orange-500 to-red-600 text-white text-base font-bold shadow-lg btn-glow-orange transition-all hover:scale-105 active:scale-95">
+              <Link href="/calculator" className="group relative flex items-center justify-center gap-3 h-14 px-8 rounded-full bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 transition-all hover:scale-105 active:scale-95">
                 <span className="material-symbols-outlined group-hover:animate-bounce">rocket_launch</span>
                 Mulai Sekarang
                 <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              </button>
-              <button className="flex items-center justify-center gap-2 h-14 px-8 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors text-sm font-medium">
-                <span className="material-symbols-outlined text-primary">play_circle</span>
-                Lihat Demo
-              </button>
+              </Link>
+              <Link href="/about" className="flex items-center justify-center gap-2 h-14 px-8 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors text-sm font-medium">
+                Pelajari Lebih Lanjut
+                <span className="material-symbols-outlined text-primary">arrow_forward</span>
+              </Link>
             </div>
             
             {/* Social Proof / Stats */}

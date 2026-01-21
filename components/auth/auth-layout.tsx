@@ -26,13 +26,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
-      {/* Theme Toggle */}
-      <button 
-        onClick={() => document.documentElement.classList.toggle('dark')}
-        className="fixed top-6 right-6 p-3 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all duration-300 focus:outline-none z-50 border border-white/10 backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
-      >
-        <span className="material-symbols-outlined text-xl">settings_brightness</span>
-      </button>
+
     </div>
   );
 }

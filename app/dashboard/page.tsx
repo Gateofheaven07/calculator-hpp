@@ -4,6 +4,7 @@ import { KPIStats } from "@/components/dashboard/kpi-stats";
 import { RecentEntriesTable } from "@/components/dashboard/recent-entries";
 import { DashboardFilter } from "@/components/dashboard/dashboard-filter";
 import { getChartData, getProductNames, Period } from "@/lib/dashboard-service";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 interface DashboardPageProps {
   searchParams: Promise<{
@@ -24,29 +25,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-30 flex items-center justify-between px-8 py-6 bg-[#0B0E14]/80 backdrop-blur-md border-b border-white/5">
-        <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">
-            Ringkasan Dasbor
-          </h2>
-          <p className="text-sm text-gray-400 mt-1">
-            Analisis biaya dan input real-time
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="h-10 w-10 flex items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
-            <span className="material-symbols-outlined text-[20px]">
-              notifications
-            </span>
-          </button>
-          <button className="h-10 px-4 flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 text-sm font-medium text-white hover:bg-white/10 transition-colors">
-            <span>{new Date().toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}</span>
-            <span className="material-symbols-outlined text-[16px]">
-              expand_more
-            </span>
-          </button>
-        </div>
-      </header>
+      <DashboardHeader />
 
       <div className="p-8 flex flex-col gap-8 max-w-[1400px] mx-auto w-full pb-20">
         <KPIStats productName={product} />

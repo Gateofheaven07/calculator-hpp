@@ -1,28 +1,27 @@
-export default function ReportsPage() {
+export const dynamic = "force-dynamic";
+
+import { getHppCalculations } from "@/app/actions/hpp-actions";
+import { ReportsTable } from "@/components/dashboard/reports-table";
+
+export default async function ReportsPage() {
+  const result = await getHppCalculations();
+  const calculations = result.success ? result.data || [] : [];
+
   return (
     <div className="p-8 max-w-[1400px] mx-auto w-full pb-20">
-      <header className="mb-8">
-        <h2 className="text-2xl font-bold text-white tracking-tight">
-          Laporan Keuangan
-        </h2>
-        <p className="text-sm text-gray-400 mt-1">
-          Analisis detail performa produksi dan biaya
-        </p>
+      <header className="mb-8 flex justify-between items-end">
+        <div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+            Laporan Keuangan
+            </h2>
+            <p className="text-sm text-gray-400 mt-1">
+            Analisis detail performa produksi dan biaya
+            </p>
+        </div>
+        {/* Placeholder for future filter controls */}
       </header>
 
-      <div className="glass-panel p-8 rounded-2xl flex flex-col items-center justify-center min-h-[400px] text-center">
-        <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mb-4">
-          <span className="material-symbols-outlined text-3xl text-gray-400">
-            analytics
-          </span>
-        </div>
-        <h3 className="text-xl font-medium text-white mb-2">
-          Fitur Laporan Segera Hadir
-        </h3>
-        <p className="text-gray-400 max-w-md">
-            Anda akan dapat melihat analisis mendalam mengenai HPP, margin keuntungan, dan tren biaya produksi di sini.
-        </p>
-      </div>
+      <ReportsTable calculations={calculations} />
     </div>
   );
 }

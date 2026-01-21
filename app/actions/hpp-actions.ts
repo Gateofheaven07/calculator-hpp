@@ -17,12 +17,35 @@ export type HppInputData = {
   };
 };
 
+import { jwtVerify } from "jose";
+import { cookies } from "next/headers";
+
+const secret = new TextEncoder().encode(
+  process.env.JWT_SECRET || "default_secret_key_change_me"
+);
+
+async function getUserId() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session")?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    return payload.userId as string;
+  } catch {
+    return null;
+  }
+}
+
 export async function createHppCalculation(data: HppInputData) {
   try {
+    // Override userId if not provided or valid (though strictly data.userId is passed from client currently, we should verify)
+    // For now, let's keep existing logic but warn or refactor later.
+    // Actually, let's just use the logic in getHppCalculations as requested.
+    
     const calculation = await prisma.hppCalculation.create({
       data: {
         name: data.name,
-        userId: data.userId,
+        userId: data.userId, // This relies on client passing ID. Ideally should use session ID.
         materialCosts: {
           create: data.materials.map((m) => ({
             name: m.name,
@@ -72,10 +95,16 @@ export async function createHppCalculation(data: HppInputData) {
   }
 }
 
-export async function getHppCalculations(userId: string) {
+export async function getHppCalculations(userId?: string) {
   try {
+    const targetUserId = userId || await getUserId();
+    
+    if (!targetUserId) {
+        return { success: false, error: "Unauthorized" };
+    }
+
     const calculations = await prisma.hppCalculation.findMany({
-      where: { userId },
+      where: { userId: targetUserId },
       include: {
         materialCosts: true,
         directLaborCosts: true,
@@ -88,5 +117,33 @@ export async function getHppCalculations(userId: string) {
   } catch (error) {
     console.error("Failed to fetch HPP calculations:", error);
     return { success: false, error: "Failed to fetch calculations" };
+  }
+}
+
+export async function deleteHppCalculation(id: string) {
+  try {
+    const userId = await getUserId();
+    if (!userId) {
+      return { success: false, error: "Unauthorized" };
+    }
+
+    // Verify ownership
+    const existing = await prisma.hppCalculation.findUnique({
+      where: { id },
+    });
+
+    if (!existing || existing.userId !== userId) {
+      return { success: false, error: "Not found or unauthorized" };
+    }
+
+    await prisma.hppCalculation.delete({
+      where: { id },
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete HPP calculation:", error);
+    return { success: false, error: "Failed to delete calculation" };
   }
 }

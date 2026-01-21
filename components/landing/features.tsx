@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function Features() {
   return (
@@ -98,10 +99,10 @@ export function Features() {
         <div className="flex justify-center mt-4">
           <div className="relative group cursor-pointer">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-            <button className="relative flex items-center gap-2 px-8 py-4 bg-[#101623] ring-1 ring-white/10 rounded-lg text-white font-bold tracking-wide hover:bg-[#151c2f] transition-all">
+            <Link href="/about" className="relative flex items-center gap-2 px-8 py-4 bg-[#101623] ring-1 ring-white/10 rounded-lg text-white font-bold tracking-wide hover:bg-[#151c2f] transition-all">
               Pelajari Lebih Lanjut
               <span className="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

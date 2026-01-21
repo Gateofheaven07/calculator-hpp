@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 export function CTASection() {
   return (
@@ -28,7 +29,7 @@ export function CTASection() {
             siklus HPP mereka. Mulai perhitungan Anda sekarang dan akses portal.
           </p>
         </div>
-        <button className="group relative flex h-14 min-w-[200px] items-center justify-center overflow-hidden rounded-full bg-primary px-8 text-base font-bold text-white shadow-[0_0_30px_-5px_rgba(13,89,242,0.6)] transition-all hover:scale-105 hover:bg-blue-600 hover:shadow-[0_0_50px_-5px_rgba(13,89,242,0.8)]">
+        <Link href="/calculator" className="group relative flex h-14 min-w-[200px] items-center justify-center overflow-hidden rounded-full bg-primary px-8 text-base font-bold text-white shadow-[0_0_30px_-5px_rgba(13,89,242,0.6)] transition-all hover:scale-105 hover:bg-blue-600 hover:shadow-[0_0_50px_-5px_rgba(13,89,242,0.8)]">
           <span className="relative z-10 flex items-center gap-2">
             Buka Kalkulator
             <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
@@ -37,7 +38,7 @@ export function CTASection() {
           </span>
           {/* Button inner glow effect */}
           <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
-        </button>
+        </Link>
       </div>
     </section>
   );

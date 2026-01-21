@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { saveCalculation } from "@/app/actions/calc-actions";
 import { Loader2 } from "lucide-react";
 
-export function HPPInputForm() {
+export function HPPInputForm({ isPublic = false }: { isPublic?: boolean }) {
   const [productName, setProductName] = useState("");
   
   // Dynamic Lists
@@ -246,19 +246,21 @@ export function HPPInputForm() {
                 <span className="text-primary font-bold">{formatIDR(sellingPrice)}</span>
             </div>
 
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="btn-primary w-full py-4 rounded-xl flex items-center justify-center gap-2 text-white font-bold tracking-wide mt-2"
-              type="button"
-            >
-              {isSaving ? <Loader2 className="animate-spin" /> : (
-                  <>
-                    <span className="material-symbols-outlined">save</span>
-                    Simpan Kalkulasi
-                  </>
-              )}
-            </button>
+            {!isPublic && (
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="btn-primary w-full py-4 rounded-xl flex items-center justify-center gap-2 text-white font-bold tracking-wide mt-2"
+                type="button"
+              >
+                {isSaving ? <Loader2 className="animate-spin" /> : (
+                    <>
+                      <span className="material-symbols-outlined">save</span>
+                      Simpan Kalkulasi
+                    </>
+                )}
+              </button>
+            )}
         </div>
 
       </div>

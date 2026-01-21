@@ -1,25 +1,31 @@
+"use client";
+
 import Link from "next/link";
 import { Calculator } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function Navbar() {
+  const router = useRouter();
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-            <Calculator className="h-5 w-5 text-white" />
-          </div>
+        <button 
+          onClick={() => router.back()}
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+        >
+          <img src="/logo_calc.png" alt="HPP Calculator Logo" className="h-8 w-8 object-contain" />
           <span className="text-lg font-bold text-white">HPP Calculator</span>
-        </div>
+        </button>
 
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="#features" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
+          <Link href="/features" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
             Fitur
           </Link>
-          <Link href="#pricing" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
+          <Link href="/calculator" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
             Kalkulator
           </Link>
-          <Link href="#about" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
+          <Link href="/about" className="text-sm font-medium text-slate-400 transition-colors hover:text-white">
             Tentang
           </Link>
         </div>

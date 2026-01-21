@@ -92,3 +92,92 @@ export async function login(prevState: any, formData: FormData) {
 
   redirect("/dashboard");
 }
+
+export async function logout() {
+  (await cookies()).delete("session");
+  redirect("/");
+}
+
+export async function updateProfile(prevState: any, formData: FormData) {
+  try {
+    const name = formData.get("name") as string;
+    const phoneNumber = formData.get("phoneNumber") as string;
+    const image = formData.get("image") as string; // Base64 string
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("session")?.value;
+    
+    if (!token) return { success: false, error: "Unauthorized" };
+
+    const secret = new TextEncoder().encode(
+        process.env.JWT_SECRET || "default_secret_key_change_me"
+    );
+    
+    const { jwtVerify } = await import("jose");
+    
+    let userId: string;
+    try {
+        const { payload } = await jwtVerify(token, secret);
+        userId = payload.userId as string;
+    } catch {
+        return { success: false, error: "Invalid session" };
+    }
+
+    if (!name) {
+      return { success: false, error: "Name is required" };
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { name, phoneNumber, image },
+    });
+
+    // Revalidate dashboard layout to update sidebar
+    const { revalidatePath } = await import("next/cache");
+    revalidatePath("/dashboard", "layout");
+    
+    return { success: true };
+
+  } catch (error) {
+    console.error("Profile update error:", error);
+    return { success: false, error: "Failed to update profile" };
+  }
+}
+
+export async function changePassword(prevState: any, formData: FormData) {
+    try {
+        const newPassword = formData.get("newPassword") as string;
+        
+        if (!newPassword || newPassword.length < 6) {
+            return { success: false, error: "Password must be at least 6 characters" };
+        }
+
+        const cookieStore = await cookies();
+        const token = cookieStore.get("session")?.value;
+        if (!token) return { success: false, error: "Unauthorized" };
+
+        const secret = new TextEncoder().encode(
+            process.env.JWT_SECRET || "default_secret_key_change_me"
+        );
+        const { jwtVerify } = await import("jose");
+        let userId: string;
+        try {
+            const { payload } = await jwtVerify(token, secret);
+            userId = payload.userId as string;
+        } catch {
+            return { success: false, error: "Invalid session" };
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { password: hashedPassword },
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error("Change password error:", error);
+         return { success: false, error: "Failed to change password" };
+    }
+}
