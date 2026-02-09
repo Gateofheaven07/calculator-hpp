@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 
 interface GoogleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,6 +10,8 @@ export const GoogleButton: FC<GoogleButtonProps> = ({ children, ...props }) => {
   return (
     <button
       {...props}
+      type="button"
+      onClick={() => window.location.href = "/api/auth/google"}
       className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]"
     >
       <svg className="h-5 w-5" viewBox="0 0 24 24">

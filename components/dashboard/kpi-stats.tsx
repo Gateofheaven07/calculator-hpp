@@ -3,12 +3,19 @@ import { prisma } from "@/lib/db";
 
 interface KPIStatsProps {
   productName?: string;
+  userId: string;
 }
 
-export async function KPIStats({ productName }: KPIStatsProps) {
-  const whereClause: any = {};
+export async function KPIStats({ productName, userId }: KPIStatsProps) {
+  const whereClause: any = {
+    calculation: {
+        userId: userId
+    }
+  };
+  
   if (productName && productName !== "all") {
     whereClause.calculation = {
+        ...whereClause.calculation,
         name: productName
     };
   }
@@ -27,7 +34,7 @@ export async function KPIStats({ productName }: KPIStatsProps) {
 
   // Fetch Overhead Costs
   const overheadCosts = await prisma.overheadCost.findMany({
-     where: whereClause
+    where: whereClause
   });
   const totalOverhead = overheadCosts.reduce((acc, curr) => acc + curr.amount, 0);
 

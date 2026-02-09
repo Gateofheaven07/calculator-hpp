@@ -2,8 +2,10 @@ import { prisma } from "@/lib/db";
 
 export type Period = "daily" | "weekly" | "monthly" | "yearly";
 
-export async function getChartData(period: Period, productName?: string) {
-  const whereClause: any = {};
+export async function getChartData(userId: string, period: Period, productName?: string) {
+  const whereClause: any = {
+    userId: userId,
+  };
   if (productName && productName !== "all") {
     whereClause.name = productName;
   }
@@ -62,8 +64,9 @@ export async function getChartData(period: Period, productName?: string) {
   }));
 }
 
-export async function getProductNames() {
+export async function getProductNames(userId: string) {
   const products = await prisma.hppCalculation.findMany({
+    where: { userId },
     select: { name: true },
     distinct: ['name'],
   });

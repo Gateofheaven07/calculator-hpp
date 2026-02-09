@@ -10,19 +10,22 @@ const formatIDR = (amount: number) => {
   }).format(amount);
 };
 
-export async function RecentEntriesTable() {
+export async function RecentEntriesTable({ userId }: { userId: string }) {
   // Fetch recent 5 from each category
   const materials = await prisma.materialCost.findMany({
+    where: { calculation: { userId } },
     take: 5,
     orderBy: { createdAt: 'desc' },
   });
 
   const labor = await prisma.directLaborCost.findMany({
+    where: { calculation: { userId } },
     take: 5,
     orderBy: { createdAt: 'desc' },
   });
   
   const overhead = await prisma.overheadCost.findMany({
+    where: { calculation: { userId } },
     take: 5,
     orderBy: { createdAt: 'desc' },
   });

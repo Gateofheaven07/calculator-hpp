@@ -13,14 +13,22 @@ interface DashboardPageProps {
   }>;
 }
 
+import { getUser } from "@/lib/auth-service";
+import { redirect } from "next/navigation";
+
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const user = await getUser();
+  if (!user) {
+    redirect("/login");
+  }
+
   const params = await searchParams;
   const product = params.product || "all";
   const period = (params.period as Period) || "monthly";
 
   // Fetch Data
-  const chartData = await getChartData(period, product);
-  const products = await getProductNames();
+  const chartData = await getChartData(user.id, period, product);
+  const products = await getProductNames(user.id);
 
   return (
     <>
@@ -28,7 +36,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <DashboardHeader />
 
       <div className="p-8 flex flex-col gap-8 max-w-[1400px] mx-auto w-full pb-20">
-        <KPIStats productName={product} />
+        <KPIStats productName={product} userId={user.id} />
 
         {/* Filter Section */}
         <DashboardFilter products={products} />
@@ -39,7 +47,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <HPPInputForm />
         </div>
 
-        <RecentEntriesTable />
+        <RecentEntriesTable userId={user.id} />
       </div>
     </>
   );
