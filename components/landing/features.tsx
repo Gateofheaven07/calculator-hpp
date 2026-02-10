@@ -8,7 +8,7 @@ export function Features() {
     <section className="relative py-20 px-4 md:px-6 overflow-hidden">
       {/* Ambient Background Glows */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse-glow"></div>
+
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 rounded-full blur-[100px] mix-blend-screen"></div>
         <div className="absolute inset-0 stars-bg opacity-30 animate-drift"></div>
       </div>
